@@ -145,3 +145,9 @@ ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_uid=1, write_date=
 ## set param if still error
 ICP = env['ir.config_parameter'].sudo()
 ICP.set_param('authentik.slug', 'authentik')
+
+
+# OPENAI_API_KEY
+👉 https://platform.openai.com/signup
+👉 https://platform.openai.com/api-keys
+  Create new secret key
