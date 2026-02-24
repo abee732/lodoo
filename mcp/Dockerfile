@@ -1,7 +1,7 @@
 FROM python:3.11-slim
 
 WORKDIR /app
-COPY mcp/requirements.txt .
+COPY ./mcp/requirements.txt .
 
 # System deps
 RUN apt-get update && apt-get install -y \
@@ -10,11 +10,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install python deps
-COPY mcp/requirements.txt .
+COPY ./mcp/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code
-COPY mcp ./app
+COPY ./mcp ./app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
