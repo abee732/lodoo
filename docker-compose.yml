@@ -2,36 +2,36 @@ version: "3.5"
 
 services:
   # --- CƠ SỞ DỮ LIỆU & REDIS (Dùng chung cho Authentik) ---
-  authentik-db:
-    image: postgres:16-alpine
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 5s
-    networks:
-      - sso-network
-    volumes:
-      - ./auth-db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
-      POSTGRES_USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
-      POSTGRES_DB: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
-    restart: unless-stopped
+  # authentik-db:
+  #   image: postgres:16-alpine
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+  #     start_period: 20s
+  #     interval: 30s
+  #     retries: 5
+  #     timeout: 5s
+  #   networks:
+  #     - coolify
+  #   volumes:
+  #     - ./auth-db:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
+  #     POSTGRES_USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
+  #     POSTGRES_DB: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
+  #   restart: unless-stopped
 
-  authentik-redis:
-    image: redis:alpine
-    command: --save 60 1 --loglevel warning
-    networks:
-      - sso-network
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-    restart: unless-stopped
+  # authentik-redis:
+  #   image: redis:alpine
+  #   command: --save 60 1 --loglevel warning
+  #   networks:
+  #     - coolify
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+  #     start_period: 20s
+  #     interval: 30s
+  #     retries: 5
+  #     timeout: 3s
+  #   restart: unless-stopped
 
   # --- AUTHENTIK (Trụ sở SSO) ---
   authentik-server:
@@ -52,7 +52,7 @@ services:
       - "9000:9000"
       - "9443:9443"
     networks:
-      - sso-network
+      - coolify
     depends_on:
       authentik-db:
         condition: service_healthy
@@ -71,7 +71,7 @@ services:
       AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
       AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
     networks:
-      - sso-network
+      - coolify
     depends_on:
       authentik-db:
         condition: service_healthy
@@ -83,18 +83,18 @@ services:
   # =============================
   # ✅ ODOO mapped theo mẫu bạn đưa
   # =============================
-  db:
-    image: postgres:15
-    container_name: odoo_db
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo}
-    volumes:
-      - ./postgres:/var/lib/postgresql/data
-    networks:
-      - sso-network
-    restart: unless-stopped
+  # db:
+  #   image: postgres:15
+  #   container_name: odoo_db
+  #   environment:
+  #     POSTGRES_DB: postgres
+  #     POSTGRES_USER: odoo
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+  #   volumes:
+  #     - ./postgres:/var/lib/postgresql/data
+  #   networks:
+  #     - coolify
+  #   restart: unless-stopped
 
   odoo:
     image: odoo:17
@@ -110,7 +110,7 @@ services:
       USER: odoo
       PASSWORD: ${POSTGRES_PASSWORD:-odoo}
     networks:
-      - sso-network
+      - coolify
     volumes:
       - ./config/odoo.conf:/etc/odoo/odoo.conf
       # - ./addons:/mnt/extra-addons
@@ -132,7 +132,7 @@ services:
     ports:
       - "3333:3333"
     networks:
-      - sso-network
+      - coolify
     restart: unless-stopped
 
   # =============================
@@ -150,9 +150,13 @@ services:
     environment:
       - NEXT_PUBLIC_MCP_URL=http://localhost:3333
     networks:
-      - sso-network
+      - coolify
     restart: unless-stopped
 
+# networks:
+#   sso-network:
+#     driver: bridge
+
 networks:
-  sso-network:
-    driver: bridge
+  coolify:
+    external: true
