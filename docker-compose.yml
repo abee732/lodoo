@@ -99,8 +99,8 @@ services:
   odoo:
     image: odoo:17
     container_name: odoo_tik
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     depends_on:
       - db
     ports:
@@ -113,7 +113,7 @@ services:
       - sso-network
     volumes:
       - ./config/odoo.conf:/etc/odoo/odoo.conf
-      - ./addons:/mnt/extra-addons
+      # - ./addons:/mnt/extra-addons
       - ./odoo-web-data:/var/lib/odoo
     restart: unless-stopped
 
@@ -124,11 +124,11 @@ services:
     image: python:3.11-slim
     container_name: mcp_server
     working_dir: /app
-    volumes:
-      - ./mcp:/app
+    # volumes:
+    #   - ./mcp:/app
     command: bash -c "pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port 3333"
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     ports:
       - "3333:3333"
     networks:
