@@ -3,7 +3,7 @@ FROM odoo:17
 USER root
 
 # Copy custom addons
-COPY addons /mnt/extra-addons
+COPY . /mnt/extra-addons
 
 # Copy config if any
 # COPY config/odoo.conf /etc/odoo/odoo.conf
