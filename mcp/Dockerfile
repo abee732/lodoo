@@ -14,7 +14,7 @@ COPY ./mcp/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code
-COPY ./mcp ./app
+COPY ./mcp .
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
