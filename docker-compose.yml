@@ -101,14 +101,14 @@ services:
     container_name: odoo_tik
     # env_file:
     #   - .env
-    # depends_on:
-    #   - db
+    depends_on:
+      - mcp-server
     ports:
       - "8069:8069"
-    environment:
-      HOST: db
-      USER: odoo
-      PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+    # environment:
+    #   HOST: db
+    #   USER: odoo
+    #   PASSWORD: ${POSTGRES_PASSWORD:-odoo}
     networks:
       - coolify
     volumes:
