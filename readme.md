@@ -12,8 +12,8 @@
 
 # setup database
 docker exec -it odoo_tik odoo shell -d lodooo
-ICP = env['ir.config_parameter'].sudo()
 
+ICP = env['ir.config_parameter'].sudo()
 ICP.set_param('authentik.enabled', '1')
 ICP.set_param('authentik.base_url', 'http://authentik-server:9000')  # sửa localhost -> authentik-server
 ICP.set_param('authentik.client_id', 'CPi95WGTSon62uY6jOfuLvwRXWxTaKruPxDmKZDd')

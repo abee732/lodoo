@@ -34,50 +34,50 @@ services:
   #   restart: unless-stopped
 
   # --- AUTHENTIK (Trụ sở SSO) ---
-  authentik-server:
-    image: ghcr.io/goauthentik/server:latest
-    command: server
-    environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
-      AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
-    volumes:
-      - ./auth-media:/media
-      - ./auth-certs:/certs
-      - ./auth-templates:/templates
-    ports:
-      - "9000:9000"
-      - "9443:9443"
-    networks:
-      - coolify
+  # authentik-server:
+  #   image: ghcr.io/goauthentik/server:latest
+  #   command: server
+  #   environment:
+  #     AUTHENTIK_REDIS__HOST: authentik-redis
+  #     AUTHENTIK_POSTGRESQL__HOST: authentik-db
+  #     AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
+  #     AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
+  #     AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
+  #     AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+  #   volumes:
+  #     - ./auth-media:/media
+  #     - ./auth-certs:/certs
+  #     - ./auth-templates:/templates
+  #   ports:
+  #     - "9000:9000"
+  #     - "9443:9443"
+  #   networks:
+  #     - coolify
     # depends_on:
     #   authentik-db:
     #     condition: service_healthy
     #   authentik-redis:
     #     condition: service_healthy
-    restart: unless-stopped
+    # restart: unless-stopped
 
-  authentik-worker:
-    image: ghcr.io/goauthentik/server:latest
-    command: worker
-    environment:
-      AUTHENTIK_REDIS__HOST: authentik-redis
-      AUTHENTIK_POSTGRESQL__HOST: authentik-db
-      AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
-      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
-    networks:
-      - coolify
+  # authentik-worker:
+  #   image: ghcr.io/goauthentik/server:latest
+  #   command: worker
+  #   environment:
+  #     AUTHENTIK_REDIS__HOST: authentik-redis
+  #     AUTHENTIK_POSTGRESQL__HOST: authentik-db
+  #     AUTHENTIK_POSTGRESQL__USER: ${AUTHENTIK_POSTGRESQL__USER:-authentik}
+  #     AUTHENTIK_POSTGRESQL__NAME: ${AUTHENTIK_POSTGRESQL__NAME:-authentik}
+  #     AUTHENTIK_POSTGRESQL__PASSWORD: ${AUTHENTIK_POSTGRESQL__PASSWORD}
+  #     AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY}
+  #   networks:
+  #     - coolify
     # depends_on:
     #   authentik-db:
     #     condition: service_healthy
     #   authentik-redis:
     #     condition: service_healthy
-    restart: unless-stopped
+    # restart: unless-stopped
 
 
   # =============================
