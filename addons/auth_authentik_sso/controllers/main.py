@@ -289,7 +289,7 @@ class AuthentikSSOController(http.Controller):
 
         slug = _oidc_slug()
         if not slug:
-            _logger.error("Missing authentik.slug")
+            _logger.error("Missing authentik.slug" + slug)
             return redirect("/web/login?error=missing_slug", code=303)
 
         # IMPORTANT: clear old/broken session to avoid 403

@@ -15,9 +15,9 @@ docker exec -it odoo_tik odoo shell -d lodooo
 
 ICP = env['ir.config_parameter'].sudo()
 ICP.set_param('authentik.enabled', '1')
-ICP.set_param('authentik.base_url', 'http://authentik-server:9000')  # sửa localhost -> authentik-server
-ICP.set_param('authentik.client_id', 'CPi95WGTSon62uY6jOfuLvwRXWxTaKruPxDmKZDd')
-ICP.set_param('authentik.client_secret', 'qe5WOzBT2Hz6FciLN2ERPeJ5ipTbUC4CzkaipOh9iufDrlkYFFnM8xQS9OtdokgLQl4Qycuj20UdlSZSrYOl4Is8fNd75Z7iUExaWxyodAD8gatamSYJUC6MmnozPYs0')
+ICP.set_param('authentik.base_url', 'https://authentikserver.bms360.cloud')  # sửa localhost -> authentik-server
+ICP.set_param('authentik.client_id', 'y7Dt2FeprIpNcfTkhPRjy59JVEns7Ay2Btds6n4m')
+ICP.set_param('authentik.client_secret', 'XLWaUx6G20zYYXtMfNnXVyy2TTDDrX5kkULD65FawdZ2EfGwDGgKUm5UBbCgf31zOZNm4GFVDYIX8W8D4TQx0YduQZdZo7usjGdBNstZjokGwC1MzynlZfOtY2q8Gvza')
 ICP.set_param('authentik.scope', 'openid profile email')
 
 exit()
@@ -69,14 +69,6 @@ ON CONFLICT (key) DO UPDATE SET value='http://localhost:9000';
 "
 
 
-docker exec -it odoo_tik odoo shell -d lodooo
-ICP = env['ir.config_parameter'].sudo()
-
-ICP.set_param('authentik.enabled', '1')
-ICP.set_param('authentik.base_url', 'http://authentik-server:9000')  # sửa localhost -> authentik-server
-ICP.set_param('authentik.client_id', 'CPi95WGTSon62uY6jOfuLvwRXWxTaKruPxDmKZDd')
-ICP.set_param('authentik.client_secret', 'qe5WOzBT2Hz6FciLN2ERPeJ5ipTbUC4CzkaipOh9iufDrlkYFFnM8xQS9OtdokgLQl4Qycuj20UdlSZSrYOl4Is8fNd75Z7iUExaWxyodAD8gatamSYJUC6MmnozPYs0')
-ICP.set_param('authentik.scope', 'openid profile email')
 
 
 ## Note:
@@ -95,14 +87,15 @@ docker restart odoo_tik
 
 # vào odoo shell
 docker exec -it odoo_tik odoo shell -d lodooo
+psql -U odoo -d postgres
 ICP = env['ir.config_parameter'].sudo()
 ICP.set_param('authentik.enabled', '1')
-ICP.set_param('authentik.client_id', 'CPi95WGTSon62uY6jOfuLvwRXWxTaKruPxDmKZDd')
-ICP.set_param('authentik.client_secret', 'qe5WOzBT2Hz6FciLN2ERPeJ5ipTbUC4CzkaipOh9iufDrlkYFFnM8xQS9OtdokgLQl4Qycuj20UdlSZSrYOl4Is8fNd75Z7iUExaWxyodAD8gatamSYJUC6MmnozPYs0')
+ICP.set_param('authentik.client_id', 'y7Dt2FeprIpNcfTkhPRjy59JVEns7Ay2Btds6n4m')
+ICP.set_param('authentik.client_secret', 'XLWaUx6G20zYYXtMfNnXVyy2TTDDrX5kkULD65FawdZ2EfGwDGgKUm5UBbCgf31zOZNm4GFVDYIX8W8D4TQx0YduQZdZo7usjGdBNstZjokGwC1MzynlZfOtY2q8Gvza')
 ICP.set_param('authentik.scope', 'openid profile email')
-ICP.set_param('authentik.public_url', 'http://localhost:9000')          # Browser -> Authentik (host)
-ICP.set_param('authentik.internal_url', 'http://authentik-server:9000')  # Odoo -> Authentik
-ICP.set_param('authentik.base_url', 'http://authentik-server:9000')     # fallback
+ICP.set_param('authentik.public_url', 'https://authentikserver.bms360.cloud')          # Browser -> Authentik (host)
+ICP.set_param('authentik.internal_url', 'https://authentikserver.bms360.cloud')  # Odoo -> Authentik
+ICP.set_param('authentik.base_url', 'https://authentikserver.bms360.cloud')     # fallback
 
 exit()
 
@@ -123,9 +116,9 @@ def force_set(key, value):
     env.cr.commit()
     return ICPModel.get_param(key)
 
-force_set('authentik.public_url', 'http://localhost:9000')
-force_set('authentik.internal_url', 'http://authentik-server:9000')
-force_set('authentik.base_url', 'http://authentik-server:9000')
+force_set('authentik.public_url', 'https://authentikserver.bms360.cloud')
+force_set('authentik.internal_url', 'https://authentikserver.bms360.cloud')
+force_set('authentik.base_url', 'https://authentikserver.bms360.cloud')
 
 # nếu không ghi được db
 env.cr.rollback()
@@ -137,17 +130,18 @@ INSERT INTO ir_config_parameter (key, value, create_uid, write_uid, create_date,
 VALUES ('authentik.public_url', 'http://localhost:9000', 1, 1, now(), now())
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_uid=1, write_date=now();
 
-INSERT INTO ir_config_parameter (key, value, create_uid, write_uid, create_date, write_date)
-VALUES ('authentik.internal_url', 'http://authentik-server:9000', 1, 1, now(), now())
-ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_uid=1, write_date=now();
+INSERT INTO ir_config_parameter (key, value, create_uid, write_uid, create_date, write_date) VALUES ('authentik.internal_url', 'https://authentikserver.bms360.cloud', 1, 1, now(), now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_uid=1, write_date=now();
 
 
 ## set param if still error
 ICP = env['ir.config_parameter'].sudo()
-ICP.set_param('authentik.slug', 'authentik')
+ICP.set_param('authentik.slug', 'authserv')
 
 
 # OPENAI_API_KEY
 👉 https://platform.openai.com/signup
 👉 https://platform.openai.com/api-keys
   Create new secret key
+
+
+  INSERT INTO ir_config_parameter (key, value, create_uid, write_uid, create_date, write_date) VALUES ('authentik.enabled', '1', 1, 1, now(), now()),('authentik.client_id', 'y7Dt2FeprIpNcfTkhPRjy59JVEns7Ay2Btds6n4m', 1, 1, now(), now()),('authentik.client_secret', 'XLWaUx6G20zYYXtMfNnXVyy2TTDDrX5kkULD65FawdZ2EfGwDGgKUm5UBbCgf31zOZNm4GFVDYIX8W8D4TQx0YduQZdZo7usjGdBNstZjokGwC1MzynlZfOtY2q8Gvza', 1, 1, now(), now()),('authentik.scope', 'openid profile email', 1, 1, now(), now()),('authentik.public_url', 'https://authentikserver.bms360.cloud', 1, 1, now(), now()),('authentik.internal_url', 'https://authentikserver.bms360.cloud', 1, 1, now(), now()),('authentik.base_url', 'https://authentikserver.bms360.cloud', 1, 1, now(), now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, write_uid = 1, write_date = now();
