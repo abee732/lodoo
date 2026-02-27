@@ -145,7 +145,7 @@ services:
   ai-chat:
     # image: node:20-alpine
     build:
-      context: ./api-chat
+      context: ./ai-chat
     container_name: ai_chat_ui
     working_dir: /app
     # volumes:
