@@ -103,7 +103,7 @@ exit()
 docker restart odoo_tik
 
 
-## retủn false khi chạy ICP.set_param('authentik.internal_url', 'http://authentik-server:9000')
+## return false khi chạy ICP.set_param('authentik.internal_url', 'http://authentik-server:9000')
 docker exec -it odoo_tik odoo shell -d lodooo
 ICPModel = env['ir.config_parameter'].sudo()
 
