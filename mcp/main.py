@@ -21,14 +21,12 @@ async def chat(req: ChatRequest):
 
     payload = {
         "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "user", "content": req.question}
-        ]
+        "input": req.question
     }
 
     async with httpx.AsyncClient(timeout=60) as client:
         r = await client.post(
-            "https://api.openai.com/v1/chat/completions",
+            "https://api.openai.com/v1/responses",
             headers={
                 "Authorization": f"Bearer {OPENAI_API_KEY}",
                 "Content-Type": "application/json"
@@ -40,4 +38,10 @@ async def chat(req: ChatRequest):
         raise HTTPException(500, r.text)
 
     data = r.json()
-    return {"answer": data["choices"][0]["message"]["content"]}
+
+    try:
+        answer = data["output"][0]["content"][0]["text"]
+    except Exception:
+        raise HTTPException(500, f"Invalid OpenAI response: {data}")
+
+    return {"answer": answer}
