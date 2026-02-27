@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+<t t-name="odoo_ai_popup.AIPopup">
+    <div class="ai-popup-wrapper">
+        <div class="ai-floating-btn" t-on-click="toggle">
+            🤖
+        </div>
+
+        <t t-if="state.open">
+            <div class="ai-popup">
+                <div class="ai-header">
+                    🤖 AI Assistant
+                    <span class="close" t-on-click="toggle">×</span>
+                </div>
+
+                <div class="ai-body">
+                    <t t-foreach="state.messages" t-as="m" t-key="m">
+                        <div t-att-class="'msg ' + m.role">
+                            <t t-esc="m.content"/>
+                        </div>
+                    </t>
+
+                    <t t-if="state.loading">
+                        <div class="msg assistant">⏳ Đang xử lý...</div>
+                    </t>
+                </div>
+
+                <div class="ai-footer">
+                    <input type="text"
+                           placeholder="Nhập câu hỏi..."
+                           t-model="state.input"
+                           t-on-keydown.enter="send"/>
+                    <button t-on-click="send">Gửi</button>
+                </div>
+            </div>
+        </t>
+    </div>
+</t>
+
+</templates>
