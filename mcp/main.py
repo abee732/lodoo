@@ -26,7 +26,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 class ChatRequest(BaseModel):
-    message: str
+    message: Optional[str] = None
+    question: Optional[str] = None
 
 class ChatResponse(BaseModel):
     reply: str
