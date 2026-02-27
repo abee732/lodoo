@@ -14,7 +14,7 @@ class OdooAIChat(models.Model):
         string='Người gửi', 
         default=lambda self: self.env.user
     )
-    message = fields.Text(string="Question")
+    question = fields.Text(string="Question")
     answer = fields.Text(string="Answer", readonly=True) # Nên để readonly để tránh sửa tay đè lên AI
 
     def action_send(self):
