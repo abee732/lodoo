@@ -143,11 +143,13 @@ services:
   # ✅ AI CHAT UI (FRONTEND)
   # =============================
   ai-chat:
-    image: node:20-alpine
+    # image: node:20-alpine
+    build:
+      context: ./api-chat
     container_name: ai_chat_ui
     working_dir: /app
-    volumes:
-      - ./ai-chat:/app
+    # volumes:
+    #   - ./ai-chat:/app
     command: sh -c "npm install && npm run dev"
     ports:
       - "3000:3000"
