@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dkms_document_user,dkms.document.user,model_dkms_document,group_dkms_user,1,0,0,0
+access_dkms_document_manager,dkms.document.manager,model_dkms_document,group_dkms_manager,1,1,1,1
+access_dkms_folder_manager,dkms.folder.manager,model_dkms_folder,group_dkms_manager,1,1,1,1
+access_dkms_tag_manager,dkms.tag.manager,model_dkms_tag,group_dkms_manager,1,1,1,1

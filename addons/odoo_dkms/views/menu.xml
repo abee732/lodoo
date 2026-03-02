@@ -1,0 +1,15 @@
+<odoo>
+    <menuitem id="menu_dkms_root" name="Knowledge" sequence="10"/>
+
+    <menuitem id="menu_dkms_folder" name="Folders"
+              parent="menu_dkms_root"
+              action="action_dkms_folder"/>
+
+    <menuitem id="menu_dkms_document" name="Documents"
+              parent="menu_dkms_root"
+              action="action_dkms_document"/>
+
+    <menuitem id="menu_dkms_tag" name="Tags"
+              parent="menu_dkms_root"
+              action="action_dkms_tag"/>
+</odoo>
